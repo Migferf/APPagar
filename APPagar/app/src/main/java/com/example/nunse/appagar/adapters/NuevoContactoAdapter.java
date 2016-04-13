@@ -59,12 +59,9 @@ public class NuevoContactoAdapter extends BaseAdapter{
 
         Contacto contacto = this.contactos.get(position);
 
-        Log.i("Sportacus", contacto.getNombre());
-        Log.i("Sportacus", ""+contacto.getNumero());
-        Log.i("Sportacus", ""+idNumero);
         idNombreContacto.setText(contacto.getNombre());
 
-        idImagen.setImageResource(contacto.getImage());
+        idImagen.setImageBitmap(contacto.getImage());
 
         idNumero.setText("Tlf: " + contacto.getNumero());
 

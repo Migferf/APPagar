@@ -1,5 +1,7 @@
 package com.example.nunse.appagar.model;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,8 +13,8 @@ public class Contacto {
 
     private String nombre;
     private String apellidos;
-    private int image;
-    private int numero;
+    private Bitmap image;
+    private String numero;
 
 
     private List<Deuda> deudas;
@@ -20,7 +22,7 @@ public class Contacto {
 
     public Contacto()
     {
-
+        deudas = new ArrayList<Deuda>();
     }
 
     public Contacto(String nombre, String apellidos)
@@ -67,22 +69,22 @@ public class Contacto {
         return apellidos;
     }
 
-    public int getImage()
+    public Bitmap getImage()
     {
         return image;
     }
 
-    public void setImage(int image)
+    public void setImage(Bitmap image)
     {
         this.image = image;
     }
 
-    public int getNumero()
+    public String getNumero()
     {
         return numero;
     }
 
-    public void setNumero(int numero)
+    public void setNumero(String numero)
     {
         this.numero = numero;
     }
@@ -100,6 +102,8 @@ public class Contacto {
     {
         return deudas;
     }
+
+
 
 
 }

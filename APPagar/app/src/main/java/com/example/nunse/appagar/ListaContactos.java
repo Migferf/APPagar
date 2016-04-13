@@ -11,8 +11,11 @@ import android.widget.ListView;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 
 import com.example.nunse.appagar.adapters.ContactoAdapter;
+import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.model.Contacto;
+import com.example.nunse.appagar.persistence.PersistenceFactory;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,29 +53,23 @@ public class ListaContactos extends AppCompatActivity {
         contactos.add(new Contacto("Sportacus", "Sporti"));
         contactos.add(new Contacto("La Manuela", "Manolera"));
 
+
+        contactos.addAll(PersistenceFactory.getContactoGateway().getContactos());
+
         this.listView.setAdapter(new ContactoAdapter(this, contactos));
+
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
 
     }
 
 
     public void añadirContacto(View view)
     {
-        Cursor c = getContentResolver().query(
-                ContactsContract.Data.CONTENT_URI,
-                new String[]{Phone.NUMBER, Phone.DATA1},
-                null,
-                null,
-                null
-        );
-
-        while(c.moveToNext())
-        {
-            String last="";
-            String actual=c.getString(c.getColumnIndex(Phone.NUMBER));
-            Log.i("Sportacus says", c.getString(c.getColumnIndex(Phone.NUMBER)));
-            Log.i("Sportacus says",c.getString(c.getColumnIndex(Phone.DATA1)));
-        }
-
         Intent i = new Intent(this, ListaNuevoContacto.class);
         startActivity(i);
     }

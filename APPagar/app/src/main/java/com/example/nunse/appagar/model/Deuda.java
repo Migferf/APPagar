@@ -10,6 +10,7 @@ public class Deuda {
     private Contacto deudor;
     private double cantidad;
     private Date fechaDeuda;
+    private boolean saldada;
 
 
     public Deuda(Contacto deudor, double cantidad)
@@ -44,6 +45,16 @@ public class Deuda {
     public void setDeudor(Contacto deudor)
     {
         this.deudor = deudor;
+    }
+
+    public boolean isSaldada()
+    {
+        return saldada;
+    }
+
+    public void saldarDeuda()
+    {
+        saldada = true;
     }
 
 

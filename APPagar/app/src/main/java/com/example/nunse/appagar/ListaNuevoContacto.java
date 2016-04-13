@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.nunse.appagar.adapters.NuevoContactoAdapter;
 import com.example.nunse.appagar.model.Contacto;
+import com.example.nunse.appagar.persistence.ContactosTelefono;
+import com.example.nunse.appagar.persistence.PersistenceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +28,9 @@ public class ListaNuevoContacto extends Activity {
 
         this.listView = (ListView) findViewById(R.id.listViewNuevo);
 
-        final List<Contacto> contactos = new ArrayList<Contacto>();
+        List<Contacto> contactos;
 
-        final Contacto contacto = new Contacto();
-        contacto.setNombre("Caca");
-        contacto.setImage(1);
-        contacto.setNumero(123456);
-        contactos.add(contacto);
-
+        contactos = new ContactosTelefono().getContactosTelefono();
         listView.setAdapter(new NuevoContactoAdapter(this, contactos));
 
 
@@ -43,7 +41,12 @@ public class ListaNuevoContacto extends Activity {
 
                 Contacto nuevoContacto = (Contacto) listView.getAdapter().getItem(position);
 
-                Log.i("Sportacus", nuevoContacto.getNombre());
+                PersistenceFactory.getContactoGateway().añadirContacto(nuevoContacto);
+
+                Toast.makeText(ListaNuevoContacto.this, "Emails", Toast.LENGTH_LONG).show();
+
+                finish();
+
             }
         });
 
