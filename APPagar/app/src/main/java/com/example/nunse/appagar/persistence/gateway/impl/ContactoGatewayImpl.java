@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.model.Contacto;
@@ -33,14 +34,7 @@ public class ContactoGatewayImpl implements ContactoGateway {
 
         SQLiteDatabase database = db.getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-
-        values.put(CONTACTOS_NOMBRE, contacto.getNombre());
-        values.put(CONTACTOS_APELLIDOS, contacto.getApellidos());
-        values.put(CONTACTOS_NUMERO, contacto.getNumero());
-        values.put(CONTACTOS_IMAGEN, bitMapToBlob(contacto.getImage()));
-
-        database.insert("Contactos", null, values);
+        database.insert("Contactos", null, putValues(contacto));
         database.close();
 
     }
@@ -48,10 +42,21 @@ public class ContactoGatewayImpl implements ContactoGateway {
     @Override
     public void borrarContacto(Contacto contacto) {
 
+        SQLiteDatabase database = db.getWritableDatabase();
+        database.delete(CONTACTOS, CONTACTOS_NUMERO + "='" + contacto.getNumero()+ "'", null);
+        database.close();
+
     }
 
     @Override
     public void modificarContacto(Contacto contacto) {
+
+        SQLiteDatabase database = db.getWritableDatabase();
+
+        database.update(CONTACTOS,putValues(contacto) ,
+                CONTACTOS_NUMERO + "='" + contacto.getNumero() + "'", null);
+
+        database.close();
 
     }
 
@@ -62,16 +67,12 @@ public class ContactoGatewayImpl implements ContactoGateway {
 
         SQLiteDatabase database = db.getReadableDatabase();
 
-        Cursor c = database.query(CONTACTOS, null, null, null, null, null, null);
-
+        Cursor c = database.query(CONTACTOS, null, null, null, null, null, null); //Todos los contactos
         while(c.moveToNext())
         {
-            Contacto contacto = new Contacto();
-            contacto.setNombre(c.getString(c.getColumnIndex(CONTACTOS_NOMBRE)));
-
-            contactos.add(contacto);
+            contactos.add(getValues(c));
         }
-
+        database.close();
         return contactos;
     }
 
@@ -81,11 +82,50 @@ public class ContactoGatewayImpl implements ContactoGateway {
     }
 
 
+    /**
+     * Introduce los valores de un contacto en un ContentValues para luego
+     * persistirlos.
+     * @param contacto
+     * @return
+     */
+    private ContentValues putValues(Contacto contacto)
+    {
+        ContentValues values = new ContentValues();
+
+        values.put(CONTACTOS_NOMBRE, contacto.getNombre());
+        values.put(CONTACTOS_APELLIDOS, contacto.getApellidos());
+        values.put(CONTACTOS_NUMERO, contacto.getNumero());
+        values.put(CONTACTOS_IMAGEN, bitMapToBlob(contacto.getImage()));
+
+        return values;
+    }
+
+    /**
+     * Construye un contacto a partir de los valores actuales de un cursor
+     * @param c
+     * @return
+     */
+    private Contacto getValues(Cursor c)
+    {
+        String nombre = c.getString(c.getColumnIndex(CONTACTOS_NOMBRE));
+        String apellidos = c.getString(c.getColumnIndex(CONTACTOS_APELLIDOS));
+        String numero = c.getString(c.getColumnIndex(CONTACTOS_NUMERO));
+        Bitmap imagen = blobToBitMap(c.getBlob(c.getColumnIndex(CONTACTOS_IMAGEN)));
+
+
+        Contacto contacto = new Contacto();
+        contacto.setNombre(nombre);
+        contacto.setApellidos(apellidos);
+        contacto.setNumero(numero);
+        contacto.setImage(imagen);
+
+        return contacto;
+    }
 
     /**
      * SQLite no permite guardar Bitmap en su base de datos
      * pero si el tipo Blob, este método transforma una imagen
-     * a un array de bytes (Blob
+     * a un array de bytes (Blob).
      *
      * @param image
      * @return
@@ -94,6 +134,17 @@ public class ContactoGatewayImpl implements ContactoGateway {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, bos);
         return bos.toByteArray();
+    }
+
+    /**
+     * SQLite sólo permite guardar imágenes como arrays de bytes,
+     * este método transforma ese tipo de datos en un Bitmap.
+     * @param byteImagen
+     * @return
+     */
+    private Bitmap blobToBitMap(byte[] byteImagen)
+    {
+        return BitmapFactory.decodeByteArray(byteImagen, 0 ,byteImagen.length);
     }
 
     private DBHelper db;
