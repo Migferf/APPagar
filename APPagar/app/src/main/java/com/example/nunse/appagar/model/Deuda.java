@@ -12,7 +12,16 @@ public class Deuda {
     private Date fechaDeuda;
     private boolean saldada;
 
+    private int id;
 
+
+    public Deuda (int id, double cantidad, Date fechaDeuda ,Contacto deudor)
+    {
+        this.id = id;
+        this.cantidad = cantidad;
+        this.fechaDeuda = fechaDeuda;
+        this.deudor = deudor;
+    }
     public Deuda(Contacto deudor, double cantidad)
     {
         this.deudor = deudor;
@@ -57,5 +66,9 @@ public class Deuda {
         saldada = true;
     }
 
+
+    public int getID() {
+        return id;
+    }
 
 }

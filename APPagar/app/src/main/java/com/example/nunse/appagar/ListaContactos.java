@@ -7,12 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.widget.Toast;
 
 import com.example.nunse.appagar.adapters.ContactoAdapter;
 import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.model.Contacto;
+import com.example.nunse.appagar.persistence.DBHelper;
 import com.example.nunse.appagar.persistence.PersistenceFactory;
 
 import java.sql.Blob;
@@ -28,41 +31,32 @@ public class ListaContactos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_contactos);
 
+
         this.listView = (ListView) findViewById(R.id.listView);
 
-        List<Contacto> contactos = new ArrayList<Contacto>();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        contactos.add(new Contacto("Manuel José", "Ramirez"));
-        contactos.add(new Contacto("Almiro", "Mirolá"));
-        contactos.add(new Contacto("Gutierrez", "Gutierrez"));
-        contactos.add(new Contacto("Sportacus", "Sporti"));
-        contactos.add(new Contacto("La Manuela", "Manolera"));
-        contactos.add(new Contacto("Manuel José", "Ramirez"));
-        contactos.add(new Contacto("Almiro", "Mirolá"));
-        contactos.add(new Contacto("Gutierrez", "Gutierrez"));
-        contactos.add(new Contacto("Sportacus", "Sporti"));
-        contactos.add(new Contacto("La Manuela", "Manolera"));
-        contactos.add(new Contacto("Manuel José", "Ramirez"));
-        contactos.add(new Contacto("Almiro", "Mirolá"));
-        contactos.add(new Contacto("Gutierrez", "Gutierrez"));
-        contactos.add(new Contacto("Sportacus", "Sporti"));
-        contactos.add(new Contacto("La Manuela", "Manolera"));
-        contactos.add(new Contacto("Manuel José", "Ramirez"));
-        contactos.add(new Contacto("Almiro", "Mirolá"));
-        contactos.add(new Contacto("Gutierrez", "Gutierrez"));
-        contactos.add(new Contacto("Sportacus", "Sporti"));
-        contactos.add(new Contacto("La Manuela", "Manolera"));
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Contacto contacto = (Contacto) listView.getAdapter().getItem(position);
 
-        contactos.addAll(PersistenceFactory.getContactoGateway().getContactos());
+                contacto.setNombre("NuevoNombre");
+                PersistenceFactory.getContactoGateway().modificarContacto(contacto);
 
-        this.listView.setAdapter(new ContactoAdapter(this, contactos));
+                onResume();
+
+            }
+        });
+        onResume();
 
     }
 
     @Override
     public void onResume()
     {
+        List<Contacto> contactos = PersistenceFactory.getContactoGateway().getContactos();
+        this.listView.setAdapter(new ContactoAdapter(this, contactos));
         super.onResume();
 
     }

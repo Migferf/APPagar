@@ -23,7 +23,6 @@ public class DBHelper extends SQLiteOpenHelper{
 
     public DBHelper(Context context) {
 
-
         super(context, DATABASE_NAME, null, version);
     }
 
