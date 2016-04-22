@@ -10,6 +10,7 @@ import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.model.Contacto;
 import com.example.nunse.appagar.persistence.DBHelper;
 import com.example.nunse.appagar.persistence.gateway.ContactoGateway;
+import com.example.nunse.appagar.persistence.gateway.DeudaGateway;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Blob;
@@ -34,7 +35,7 @@ public class ContactoGatewayImpl implements ContactoGateway {
 
         SQLiteDatabase database = db.getWritableDatabase();
 
-        database.insert("Contactos", null, putValues(contacto));
+        database.insert(CONTACTOS, null, putValues(contacto));
         database.close();
 
     }
@@ -43,7 +44,7 @@ public class ContactoGatewayImpl implements ContactoGateway {
     public void borrarContacto(Contacto contacto) {
 
         SQLiteDatabase database = db.getWritableDatabase();
-        database.delete(CONTACTOS, CONTACTOS_NUMERO + "='" + contacto.getNumero()+ "'", null);
+        database.delete(CONTACTOS, CONTACTOS_NUMERO + "='" + contacto.getNumero() + "'", null);
         database.close();
 
     }
@@ -53,7 +54,7 @@ public class ContactoGatewayImpl implements ContactoGateway {
 
         SQLiteDatabase database = db.getWritableDatabase();
 
-        database.update(CONTACTOS,putValues(contacto) ,
+        database.update(CONTACTOS, putValues(contacto),
                 CONTACTOS_NUMERO + "='" + contacto.getNumero() + "'", null);
 
         database.close();
@@ -74,11 +75,6 @@ public class ContactoGatewayImpl implements ContactoGateway {
         }
         database.close();
         return contactos;
-    }
-
-    @Override
-    public void establecerDB(DBHelper db) {
-        this.db = db;
     }
 
 
@@ -144,7 +140,12 @@ public class ContactoGatewayImpl implements ContactoGateway {
      */
     private Bitmap blobToBitMap(byte[] byteImagen)
     {
-        return BitmapFactory.decodeByteArray(byteImagen, 0 ,byteImagen.length);
+        return BitmapFactory.decodeByteArray(byteImagen, 0, byteImagen.length);
+    }
+
+    @Override
+    public void establecerDB(DBHelper db) {
+        this.db = db;
     }
 
     private DBHelper db;
