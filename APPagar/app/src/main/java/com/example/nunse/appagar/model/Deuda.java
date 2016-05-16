@@ -8,6 +8,7 @@ import java.util.Date;
 public class Deuda {
 
     private Contacto deudor;
+    private String descripcion;
     private double cantidad;
     private Date fechaDeuda;
     private boolean saldada;
@@ -37,6 +38,15 @@ public class Deuda {
         return cantidad;
     }
 
+    public String getDescripcion()
+    {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion)
+    {
+        this.descripcion = descripcion;
+    }
     public Date getFechaDeuda()
     {
         return fechaDeuda;

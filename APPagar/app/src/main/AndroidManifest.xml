@@ -26,6 +26,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nunse.appagar.ListaContactos" />
         </activity>
+        <activity android:name=".ListaDeudasContacto" >
+        </activity>
     </application>
 
 </manifest>

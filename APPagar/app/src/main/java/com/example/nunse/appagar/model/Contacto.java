@@ -2,6 +2,7 @@ package com.example.nunse.appagar.model;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * Created by nunse on 31/03/2016.
  */
-public class Contacto {
+public class Contacto{
 
     private String nombre;
     private String apellidos;

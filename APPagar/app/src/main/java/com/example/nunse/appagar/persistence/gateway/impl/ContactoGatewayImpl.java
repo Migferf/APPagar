@@ -20,11 +20,12 @@ import java.util.List;
  */
 public class ContactoGatewayImpl implements ContactoGateway {
 
-    private static final String CONTACTOS = DBConf.get("CONTACTOS");
-    private static final String CONTACTOS_NOMBRE = DBConf.get("CONTACTOS_NOMBRE");
-    private static final String CONTACTOS_APELLIDOS = DBConf.get("CONTACTOS_APELLIDOS");
-    private static final String CONTACTOS_NUMERO = DBConf.get("CONTACTOS_NUMERO");
-    private static final String CONTACTOS_IMAGEN = DBConf.get("CONTACTOS_IMAGEN");
+    private static final String
+            CONTACTOS = DBConf.get("CONTACTOS"),
+            CONTACTOS_NOMBRE = DBConf.get("CONTACTOS_NOMBRE"),
+            CONTACTOS_APELLIDOS = DBConf.get("CONTACTOS_APELLIDOS"),
+            CONTACTOS_NUMERO = DBConf.get("CONTACTOS_NUMERO"),
+            CONTACTOS_IMAGEN = DBConf.get("CONTACTOS_IMAGEN");
 
 
 
