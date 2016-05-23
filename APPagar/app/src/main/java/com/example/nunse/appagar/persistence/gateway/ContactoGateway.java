@@ -14,6 +14,7 @@ public interface ContactoGateway {
     public void borrarContacto(Contacto contacto);
     public void modificarContacto(Contacto contacto);
     public List<Contacto> getContactos();
+    public Contacto getContacto(String numero);
 
     void establecerDB(DBHelper db);
 }

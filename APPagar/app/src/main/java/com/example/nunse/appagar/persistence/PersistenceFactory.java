@@ -5,6 +5,7 @@ import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.persistence.gateway.ContactoGateway;
 import com.example.nunse.appagar.persistence.gateway.DeudaGateway;
 import com.example.nunse.appagar.persistence.gateway.impl.ContactoGatewayImpl;
+import com.example.nunse.appagar.persistence.gateway.impl.DeudaGatewayImpl;
 
 /**
  * Created by nunse on 13/04/2016.
@@ -24,6 +25,17 @@ public class PersistenceFactory {
         }
         cg.establecerDB(getDBHelper());
         return cg;
+    }
+
+    public static DeudaGateway getDeudaGateway()
+    {
+        DBConf.setAssets(APPagar.getContext());
+        if(dg == null)
+        {
+            dg = new DeudaGatewayImpl();
+        }
+        dg.establecerDB(getDBHelper());
+        return dg;
     }
 
 

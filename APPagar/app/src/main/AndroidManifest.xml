@@ -3,6 +3,7 @@
     package="com.example.nunse.appagar" >
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".conf.APPagar"

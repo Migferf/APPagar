@@ -101,6 +101,13 @@ public class Contacto{
 
     public List<Deuda> getDeudas()
     {
+        deudas.add(new Deuda(1,100, new Date(), "Dame dinero"));
+        deudas.add(new Deuda(1,200, new Date(), "Dame dinero"));
+        deudas.add(new Deuda(1,50, new Date(), "Dame dinero"));
+        deudas.add(new Deuda(1,30, new Date(), "Dame dinero"));
+        deudas.add(new Deuda(1,10, new Date(), "Dame dinero"));
+        deudas.add(new Deuda(1,10.50, new Date(), "Dame dinero"));
+
         return deudas;
     }
 

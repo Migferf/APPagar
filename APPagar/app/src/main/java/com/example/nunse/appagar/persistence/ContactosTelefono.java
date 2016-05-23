@@ -48,14 +48,10 @@ public class ContactosTelefono {
             }
             Contacto nuevoContacto = new Contacto();
 
-            Log.i("Sportacus", nombre);
-            Log.i("Sportacus", numero);
-
             nuevoContacto.setNombre(nombre);
             nuevoContacto.setNumero(numero);
             nuevoContacto.setImage(photo);
 
-            Log.i("Sportacus", "El contacto " + nuevoContacto.getNombre() + " con número " + nuevoContacto.getNumero() + " va a añadirse");
             contactosTelefono.add(nuevoContacto);
         }
 

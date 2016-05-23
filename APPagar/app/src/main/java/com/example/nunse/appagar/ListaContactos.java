@@ -1,23 +1,15 @@
 package com.example.nunse.appagar;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
-import android.widget.Toast;
-
 import com.example.nunse.appagar.adapters.ContactoAdapter;
-import com.example.nunse.appagar.conf.DBConf;
 import com.example.nunse.appagar.model.Contacto;
 import com.example.nunse.appagar.persistence.PersistenceFactory;
-
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +36,14 @@ public class ListaContactos extends AppCompatActivity {
 
         contactos.addAll(PersistenceFactory.getContactoGateway().getContactos());
 
-        this.listView.setAdapter(new ContactoAdapter(this, contactos));
+        Log.i("Sportacus", "Contactos: " + contactos.size());
+
+        this.listView = (ListView) findViewById(R.id.listView);
+
+        listView.setAdapter(new ContactoAdapter(this, contactos));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -71,7 +68,7 @@ public class ListaContactos extends AppCompatActivity {
     {
         Intent i = new Intent(this, ListaDeudasContacto.class);
 
-        i.putExtra("contacto", contacto.getNumero());
+        ActualContacto.set(contacto);
 
         startActivity(i);
     }
