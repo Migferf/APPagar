@@ -44,7 +44,9 @@ public class ContactosTelefono {
 
             String numero = c.getString(c.getColumnIndex(Phone.NUMBER));
 
-            if(numero == null || numero=="" || numero.contains("gprofile") || numero.contains("whatsapp") || numero.toCharArray().length < 3)
+            if(numero == null || numero=="" || numero.contains("gprofile")
+                    || numero.contains("whatsapp") || numero.toCharArray().length < 3
+                    || !Character.isDigit(numero.charAt(0)))
                 continue;
             Bitmap photo = getBitmapPhoto(c.getBlob(c.getColumnIndex(ContactsContract.Contacts.Photo.PHOTO)));
 
