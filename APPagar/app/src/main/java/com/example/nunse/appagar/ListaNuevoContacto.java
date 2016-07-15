@@ -41,9 +41,7 @@ public class ListaNuevoContacto extends Activity {
 
                 Contacto nuevoContacto = (Contacto) listView.getAdapter().getItem(position);
 
-                PersistenceFactory.getContactoGateway().añadirContacto(nuevoContacto);
-
-                Toast.makeText(ListaNuevoContacto.this, "Emails", Toast.LENGTH_LONG).show();
+                nuevoContacto.guardar();
 
                 finish();
 

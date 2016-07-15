@@ -1,6 +1,7 @@
 package com.example.nunse.appagar.persistence.gateway.impl;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -20,13 +21,14 @@ import java.util.List;
  */
 public class DeudaGatewayImpl implements DeudaGateway{
 
-    private static final String DEUDAS = DBConf.get("DEUDAS");
-    private static final String DEUDAS_ID = DBConf.get("DEUDAS_ID");
-    private static final String DEUDAS_CANTIDAD = DBConf.get("DEUDAS_CANTIDAD");
-    private static final String DEUDAS_FECHA = DBConf.get("DEUDAS_FECHA");
-    private static final String DEUDAS_SALDADA = DBConf.get("DEUDAS_SALDADA");
-    private static final String DEUDAS_DEUDOR = DBConf.get("DEUDAS_DEUDOR");
-    private static final String DEUDAS_DESCRIPCION = DBConf.get("DEUDAS_DESCRIPCION");
+    private static final String DEUDAS = DBConf.get("DEUDAS"),
+                                DEUDAS_ID = DBConf.get("DEUDAS_ID"),
+                                DEUDAS_CANTIDAD = DBConf.get("DEUDAS_CANTIDAD"),
+                                DEUDAS_FECHA = DBConf.get("DEUDAS_FECHA"),
+                                DEUDAS_SALDADA = DBConf.get("DEUDAS_SALDADA"),
+                                DEUDAS_DEUDOR = DBConf.get("DEUDAS_DEUDOR"),
+                                DEUDAS_DESCRIPCION = DBConf.get("DEUDAS_DESCRIPCION"),
+                                DEUDAS_CANTIDAD_RESTANTE = DBConf.get("DEUDAS_CANTIDAD_RESTANTE");
 
     @Override
     public void añadirDeuda(Contacto contacto, Deuda deuda) {
@@ -81,7 +83,8 @@ public class DeudaGatewayImpl implements DeudaGateway{
         ContentValues values = new ContentValues();
 
         values.put(DEUDAS_CANTIDAD, deuda.getCantidad());
-        values.put(DEUDAS_FECHA, (int) deuda.getFechaDeuda().getTime());
+        values.put(DEUDAS_CANTIDAD_RESTANTE, deuda.getCantidadRestante());
+        values.put(DEUDAS_FECHA, deuda.getFechaDeuda().getTime() + "");
         values.put(DEUDAS_SALDADA, deuda.isSaldada() ? 1 : 0);
         values.put(DEUDAS_DESCRIPCION, deuda.getDescripcion());
         values.put(DEUDAS_DEUDOR, contacto.getNumero());
@@ -93,10 +96,12 @@ public class DeudaGatewayImpl implements DeudaGateway{
     {
         int id = c.getInt(c.getColumnIndex(DEUDAS_ID));
         double cantidad = c.getDouble(c.getColumnIndex(DEUDAS_CANTIDAD));
-        Date fecha = new Date(c.getInt(c.getColumnIndex(DEUDAS_FECHA)));
+        double cantidadRestante = c.getDouble(c.getColumnIndex(DEUDAS_CANTIDAD_RESTANTE));
+        Date fecha = new Date(Long.parseLong(c.getString(c.getColumnIndex(DEUDAS_FECHA))));
         String descripcion = c.getString(c.getColumnIndex(DEUDAS_DESCRIPCION));
+        boolean saldada = c.getInt(c.getColumnIndex(DEUDAS_SALDADA)) ==1 ? true : false;
 
-        Deuda deuda = new Deuda(id, cantidad, fecha, descripcion);
+        Deuda deuda = new Deuda(id, cantidad, cantidadRestante, fecha, descripcion, saldada);
 
         return deuda;
     }

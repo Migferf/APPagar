@@ -48,7 +48,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:textAppearance="?android:attr/textAppearanceMedium"
-           android:text="Cantidad a pagar:"
+           android:text="Cantidad total a pagar:"
            android:id="@+id/cantidadPagar"
            android:layout_alignParentBottom="true"
            android:layout_alignParentLeft="true"
@@ -93,6 +93,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Nueva deuda"/>
+            android:text="Nueva deuda"
+            android:onClick="añadirDeuda" />
+
     </LinearLayout>
 </LinearLayout>

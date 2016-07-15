@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.nunse.appagar.R;
+import com.example.nunse.appagar.model.Comentario;
 import com.example.nunse.appagar.model.Contacto;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public class ContactoAdapter extends BaseAdapter{
 
         idContacto.setText(contacto.getNombre());
         idDeuda.setText("Deuda total: " + contacto.getCantidadDeudaTotal());
-        idNivel.setText("Nivel: Moroso profesional");
+        idNivel.setText("Nivel: " + Comentario.getInstance().get(contacto.getCantidadDeudaTotal()));
 
         return rowView;
     }

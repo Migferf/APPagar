@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="100dip">
+    android:layout_height="100dip"
+    android:background="#e0e0eb"
+    >
 
     <TextView
         android:layout_width="fill_parent"
-        android:layout_height="75dip"
+        android:layout_height="wrap_content"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
         android:id="@+id/descripcion"/>
 
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="25dip"
         android:paddingTop="5dp"
+        android:paddingLeft="10dp"
+        android:textAppearance="?android:attr/textAppearance"
         android:paddingBottom="5dp"
         android:id="@+id/fecha"/>
 </LinearLayout>

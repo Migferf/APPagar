@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface DeudaGateway {
 
-    public void añadirDeuda(Contacto contacto, Deuda deuda);
+    void añadirDeuda(Contacto contacto, Deuda deuda);
 
     /**
      * Método para <b>borrar definitivamente</b> una deuda de la base de datos.
@@ -19,9 +19,9 @@ public interface DeudaGateway {
      * Debe utilizarse el método saldar deuda del modelo, que modifica la existente.
      * @see DeudaGateway
      */
-    public void borrarDeuda(Contacto contacto, Deuda deuda);
-    public void modificarDeuda(Contacto contacto, Deuda deuda);
-    public List<Deuda> getDeudas(Contacto contacto);
+    void borrarDeuda(Contacto contacto, Deuda deuda);
+    void modificarDeuda(Contacto contacto, Deuda deuda);
+    List<Deuda> getDeudas(Contacto contacto);
 
-    public void establecerDB(DBHelper db);
+    void establecerDB(DBHelper db);
 }

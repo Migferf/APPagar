@@ -10,9 +10,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".ListaContactos" >
+        <activity
+            android:name=".ListaContactos"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,12 +25,25 @@
         <activity
             android:name=".ListaNuevoContacto"
             android:label="@string/title_activity_nuevo_contacto"
-            android:parentActivityName=".ListaContactos" >
+            android:parentActivityName=".ListaContactos"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nunse.appagar.ListaContactos" />
         </activity>
-        <activity android:name=".ListaDeudasContacto" >
+        <activity
+            android:name=".ListaDeudasContacto"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".NuevaDeuda"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Estadisticas"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".SaldarDeuda" >
         </activity>
     </application>
 

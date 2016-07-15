@@ -10,11 +10,15 @@ import java.util.List;
  */
 public interface ContactoGateway {
 
-    public void añadirContacto(Contacto contacto);
-    public void borrarContacto(Contacto contacto);
-    public void modificarContacto(Contacto contacto);
-    public List<Contacto> getContactos();
-    public Contacto getContacto(String numero);
+    void añadirContacto(Contacto contacto);
+    void borrarContacto(Contacto contacto);
+    void modificarContacto(Contacto contacto);
+    List<Contacto> getContactos();
+    Contacto getContacto(String numero);
+
+    Contacto getMayorDeudor();
+    Contacto getMayorNumeroDeudas();
+    Contacto getMenorPorcentajePagado();
 
     void establecerDB(DBHelper db);
 }

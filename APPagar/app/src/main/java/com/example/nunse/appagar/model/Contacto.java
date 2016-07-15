@@ -2,6 +2,8 @@ package com.example.nunse.appagar.model;
 
 import android.graphics.Bitmap;
 
+import com.example.nunse.appagar.persistence.PersistenceFactory;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +21,10 @@ public class Contacto{
 
 
     private List<Deuda> deudas;
+
+
+
+    private Deuda deudaActual;
 
 
     public Contacto()
@@ -40,22 +46,13 @@ public class Contacto{
         this.deudas = deudas;
     }
 
-    public void añadirDeuda(int cantidad)
-    {
-        deudas.add(new Deuda(this, cantidad));
-    }
-
-    public void añadirDeuda(int cantidad, Date fechaDeuda)
-    {
-        deudas.add(new Deuda(this,cantidad,fechaDeuda));
-    }
     public double getCantidadDeudaTotal()
     {
         double cantidadDeudaTotal = 0;
-
+        List<Deuda> deudas = getDeudasNoSaldadas();
         for(Deuda d : deudas)
         {
-           cantidadDeudaTotal += d.getCantidad();
+           cantidadDeudaTotal += d.getCantidadRestante();
         }
         return cantidadDeudaTotal;
     }
@@ -101,17 +98,50 @@ public class Contacto{
 
     public List<Deuda> getDeudas()
     {
-        deudas.add(new Deuda(1,100, new Date(), "Dame dinero"));
-        deudas.add(new Deuda(1,200, new Date(), "Dame dinero"));
-        deudas.add(new Deuda(1,50, new Date(), "Dame dinero"));
-        deudas.add(new Deuda(1,30, new Date(), "Dame dinero"));
-        deudas.add(new Deuda(1,10, new Date(), "Dame dinero"));
-        deudas.add(new Deuda(1,10.50, new Date(), "Dame dinero"));
-
-        return deudas;
+        return PersistenceFactory.getDeudaGateway().getDeudas(this);
     }
 
+    public Deuda getDeudaActual() {
+        return deudaActual;
+    }
 
+    public void setDeudaActual(Deuda deudaActual) {
+        this.deudaActual = deudaActual;
+    }
 
+    public List<Deuda> getDeudasNoSaldadas() {
 
+        List<Deuda> deudas = getDeudas();
+
+        List<Deuda> deudasSaldadas = new ArrayList<>();
+
+        for(Deuda deuda: deudas)
+        {
+            if(!deuda.isSaldada())
+                deudasSaldadas.add(deuda);
+        }
+        return deudasSaldadas;
+    }
+
+    public void guardar()
+    {
+        PersistenceFactory.getContactoGateway().añadirContacto(this);
+    }
+
+    public void borrar()
+    {
+        PersistenceFactory.getContactoGateway().borrarContacto(this);
+    }
+    @Override
+    public boolean equals(Object c)
+    {
+        Contacto contacto = (Contacto) c;
+        return contacto.getNombre().equals(this.getNombre());
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return nombre.hashCode();
+    }
 }

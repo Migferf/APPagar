@@ -27,7 +27,10 @@ public class ContactoGatewayImpl implements ContactoGateway {
             CONTACTOS_NOMBRE = DBConf.get("CONTACTOS_NOMBRE"),
             CONTACTOS_APELLIDOS = DBConf.get("CONTACTOS_APELLIDOS"),
             CONTACTOS_NUMERO = DBConf.get("CONTACTOS_NUMERO"),
-            CONTACTOS_IMAGEN = DBConf.get("CONTACTOS_IMAGEN");
+            CONTACTOS_IMAGEN = DBConf.get("CONTACTOS_IMAGEN"),
+            CONTACTOS_MAYORDEUDOR = DBConf.get("CONTACTOS_MAYORDEUDOR"),
+            CONTACTOS_MAYORNUMDEUDAS = DBConf.get("CONTACTOS_MAYORNUMDEUDAS"),
+            CONTACTOS_MENORPORCENTAJEPAGADO = DBConf.get("CONTACTOS_MENORPORCENTAJEPAGADO");
 
 
 
@@ -93,6 +96,70 @@ public class ContactoGatewayImpl implements ContactoGateway {
             contacto = getValues(c);
         }
         database.close();
+        return contacto;
+    }
+
+    @Override
+    public Contacto getMayorDeudor() {
+
+       List<Contacto> contactos = getContactos();
+
+        Contacto mayorDeudor = null;
+        double deudaMayor = 0.0;
+
+        for(Contacto c : contactos)
+        {
+            double deudaContacto = c.getCantidadDeudaTotal();
+            if(deudaContacto > deudaMayor)
+            {
+                mayorDeudor = c;
+                deudaMayor = deudaContacto;
+            }
+        }
+        return mayorDeudor;
+    }
+
+    @Override
+    public Contacto getMayorNumeroDeudas() {
+
+        List<Contacto> contactos = getContactos();
+
+        Contacto contacto = null;
+        int mayorNumeroDeudas = 0;
+
+        for(Contacto c : contactos)
+        {
+            int numDeudasActual = c.getDeudas().size();
+            if(numDeudasActual > mayorNumeroDeudas)
+            {
+                contacto = c;
+                mayorNumeroDeudas = numDeudasActual;
+            }
+        }
+        return contacto;
+    }
+
+    @Override
+    public Contacto getMenorPorcentajePagado() {
+
+        List<Contacto> contactos = getContactos();
+
+        Contacto contacto = null;
+        double porcentajeImpago = 0;
+
+        for(Contacto c : contactos)
+        {
+            double numDeudasTotalesActual = c.getDeudas().size();
+            if(numDeudasTotalesActual < 4)
+                continue; //Demasiado pocas para valorarlo
+            double numDeudasSinPagarActual = c.getDeudasNoSaldadas().size();
+
+            if(numDeudasSinPagarActual / numDeudasTotalesActual > porcentajeImpago)
+            {
+                contacto = c;
+                porcentajeImpago = numDeudasSinPagarActual / numDeudasTotalesActual;
+            }
+        }
         return contacto;
     }
 

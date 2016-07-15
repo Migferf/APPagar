@@ -33,14 +33,11 @@
             android:layout_height="wrap_content"
             android:text="Estadísticas"
             android:id="@+id/botonEstadisticas"
-            android:layout_toRightOf="@id/botonAñadir" />
+            android:onClick="mostrarEstadisticas"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ayuda"
-            android:id="@+id/botonAyuda"
-            android:layout_toRightOf="@id/botonEstadisticas" />
     </RelativeLayout>
 
 

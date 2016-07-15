@@ -1,4 +1,4 @@
-package com.example.nunse.appagar;
+package com.example.nunse.appagar.conf;
 
 import com.example.nunse.appagar.model.Contacto;
 

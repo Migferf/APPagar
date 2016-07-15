@@ -1,19 +1,25 @@
 package com.example.nunse.appagar.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.nunse.appagar.ListaDeudasContacto;
 import com.example.nunse.appagar.R;
+import com.example.nunse.appagar.SaldarDeuda;
+import com.example.nunse.appagar.conf.ActivitySaver;
+import com.example.nunse.appagar.conf.ActualContacto;
 import com.example.nunse.appagar.model.Deuda;
+import com.example.nunse.appagar.persistence.PersistenceFactory;
 
-import org.w3c.dom.Text;
-
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -21,67 +27,62 @@ import java.util.List;
  */
 public class DeudaAdapter extends BaseExpandableListAdapter{
 
-    private Context context;
+    private Context _context;
+    private List<Deuda> deudas; // header titles
+    // child data in format of header title, child title
 
-    private List<Deuda> deudas;
-
-    public DeudaAdapter(Context context, List<Deuda> deudas)
-    {
-        this.context = context;
-        this.deudas = deudas;
+    public DeudaAdapter(Context context, List<Deuda> listDataHeader) {
+        this._context = context;
+        this.deudas = listDataHeader;
     }
-
 
     @Override
-    public int getChildrenCount(int groupPosition) {
-        return 1;
+    public Object getChild(int groupPosition, int childPosititon) {
+        return null; //No se usa
     }
-
-
-
-    @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return deudas.get(groupPosition).getDescripcion();
-    }
-
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
-
-
     @Override
-    public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
 
-        Log.i("Sportacus", "llegué");
-        Deuda deuda = (Deuda) getGroup(groupPosition);
-        if(convertView == null)
-        {
-            LayoutInflater infalInflater = (LayoutInflater)
-                    this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.detalles_deuda,null);
+        final Deuda deuda = (Deuda) getGroup(groupPosition);
+
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.detalles_deuda, null);
         }
 
-        TextView descripcion = (TextView) convertView.findViewById(R.id.descripcion);
-        TextView fecha = (TextView) convertView.findViewById(R.id.fecha);
+        TextView txDescripcion = (TextView) convertView
+                .findViewById(R.id.descripcion);
 
-        descripcion.setText(deuda.getDescripcion());
-        fecha.setText(deuda.getFechaDeuda().toString());
+        TextView txFecha = (TextView) convertView
+                .findViewById(R.id.fecha);
 
-        Log.i("Sportacus", " y llegué");
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy");
+        txFecha.setText(formatter.format(deuda.getFechaDeuda()));
+        txDescripcion.setText(deuda.getDescripcion());
         return convertView;
     }
 
     @Override
-    public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+    public int getChildrenCount(int groupPosition) {
+        return 1;
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return deudas.get(groupPosition);
+        return this.deudas.get(groupPosition);
+    }
+
+    @Override
+    public int getGroupCount() {
+        return this.deudas.size();
     }
 
     @Override
@@ -89,35 +90,43 @@ public class DeudaAdapter extends BaseExpandableListAdapter{
         return groupPosition;
     }
 
-
     @Override
-    public int getGroupCount() {
-        return deudas.size();
-    }
-
-
-    @Override
-    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
-        Deuda deuda = (Deuda) getGroup(groupPosition);
-
-        if(convertView == null)
-        {
-            LayoutInflater infalInflater = (LayoutInflater)
-                    this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        final Deuda deuda = (Deuda) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.lista_deudas, null);
         }
 
-        TextView textView = (TextView) convertView.findViewById(R.id.idDeuda);
-        textView.setTypeface(null, Typeface.BOLD);
-        textView.setText(deuda.getCantidad() + "€");
+        TextView lblListHeader = (TextView) convertView
+                .findViewById(R.id.idDeuda);
+        lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.setText(deuda.getCantidadRestante() +" €");
+
+        Button button = (Button) convertView.findViewById(R.id.saldar);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(ActivitySaver.getSaved(), SaldarDeuda.class);
+                ActualContacto.getActual().setDeudaActual(deuda);
+                ActivitySaver.getSaved().finish();
+                ActivitySaver.getSaved().startActivity(i);
+            }
+        });
         return convertView;
-
     }
-
 
     @Override
     public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
         return false;
     }
 

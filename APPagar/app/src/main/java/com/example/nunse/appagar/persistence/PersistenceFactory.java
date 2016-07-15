@@ -38,8 +38,7 @@ public class PersistenceFactory {
         return dg;
     }
 
-
-    private static DBHelper getDBHelper()
+    public static DBHelper getDBHelper()
     {
         DBConf.setAssets(APPagar.getContext());
         return new DBHelper(APPagar.getContext());
